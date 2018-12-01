@@ -31,11 +31,11 @@ axios.get(queryUrl).then(
 
     function(response) {
         console.log(response.data);
-        console.log(response.ArtistData.name);
-        console.log(response.EventData.VenueData.name);
-        console.log(response.ArtistData.VenueData.city);
-        console.log(response.ArtistData.VenueData.region);
-        console.log(response.EventData.datetime);
+        console.log("Artist Name: " + response.ArtistData.name);
+        console.log("Venue Name: " + response.EventData.VenueData.name);
+        console.log("Venue City: " + response.ArtistData.VenueData.city);
+        console.log("Venue Region: " + response.ArtistData.VenueData.region);
+        console.log("Event Data/Time: " + response.EventData.datetime);
     }
 )
 
@@ -48,22 +48,39 @@ spotify
   .search({ type: 'track', query: process.argv[3].split(" ").join("%20") })
   .then(function(response) {
     console.log(response);
-    console.log(response.artists.name);
-    console.log(response.track.name);
-    console.log(response.track.preview_url);
-    console.log(response.track.album);
+    console.log("Artist Name: " + response.artists.name);
+    console.log("Track Name: " + response.track.name);
+    console.log("Preview URL: " + response.track.preview_url);
+    console.log("Track Album: " + response.track.album);
   })
   .catch(function(err) {
     console.log(err);
   });
 //movie-this
 
+var queryUrl2 = "http://www.omdbapi.com/?t=" + input + "&apikey=trilogy";
+var axios = require("axios")
+axios.get(queryUrl2).then(
+    function(response) {
+        console.log("Title: " + response.data.Title);
+        console.log("Release Year: " + response.data.Year);
+        console.log("IMDB Rating: " + response.data.imdbRating);
+        console.log("Rotten Tomatoes Rating: " + response.data.Ratings.RottenTomatoes);
+        console.log("Country of Origin: " + response.data.Country);
+        console.log("Language of Movie: " + response.data.Language);
+        console.log("Plot of Movie: " + response.data.Plot);
+        console.log("Actors in Movie: " + response.data.Actors);
+
+    }
+)
+
+
 //do-what-it-says
 var fs = require("fs");
 
 //read our random file and do the function described in the file
 fs.readFile("random.txt", "utf8", function(err, data) {
-    data;
+    console.log(data);
     if (err) {
       return console.log(err);
     }
