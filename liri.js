@@ -1,9 +1,11 @@
 require("dotenv").config();
-
+var keys = require("./keys.js");
+var Spotify = require('node-spotify-api');
+var spotify = new Spotify(keys.spotify);
 
 //Get user input for Bands in Town
 var action = process.argv[2]
-var input = process.argv[3].split(" ").join("%20");
+var input = process.argv.slice(3).join("%20");
 
 //Actions
 switch(action) {
@@ -42,19 +44,22 @@ function concertThis() {
 }
 
 //spotify-this-song
-function spotifyThis() {
-
-    var Spotify = require('node-spotify-api');
-    var spotify = require("keys.js");
-
+function spotifyThis(input) {
+    var stringInput = input.toString();
     spotify
-    .search({ type: 'track', query: input })
+    .search({ type: 'track', query: stringInput })
     .then(function(response) {
         console.log(response);
-        console.log("Artist Name: " + response.artists.name);
-        console.log("Track Name: " + response.track.name);
-        console.log("Preview URL: " + response.track.preview_url);
-        console.log("Track Album: " + response.track.album);
+        var firstResponse = response.tracks.items[0];
+        var artistName = firstResponse.artists[0].name;
+        var trackName = firstResponse.name;
+        var previewURL = firstResponse.external_urls.spotify;
+        var trackAlbum = firstResponse.album.name;
+        console.log(firstResponse);
+        console.log("Artist Name: " + artistName);
+        console.log("Track Name: " + trackName);
+        console.log("Preview URL: " + previewURL);
+        console.log("Track Album: " + trackAlbum);
     })
     .catch(function(err) {
         console.log(err);
